@@ -12,6 +12,9 @@ const config = {
         path: path.resolve(__dirname, 'dist'),
         clean: true
     },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
     devServer: {
         // open: true,
         host: 'localhost',
@@ -29,18 +32,22 @@ const config = {
         // Learn more about plugins from https://webpack.js.org/configuration/plugins/
     ],
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.(js|jsx)$/i,
                 loader: 'babel-loader',
             },
             {
                 test: /\.css$/i,
-                use: ['style-loader','css-loader'],
+                use: ['style-loader', 'css-loader'],
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
                 type: 'asset',
+            },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
             },
 
             // Add your rules for custom modules here
@@ -52,7 +59,7 @@ const config = {
 module.exports = () => {
     if (isProduction) {
         config.mode = 'production';
-        
+
     } else {
         config.mode = 'development';
     }
